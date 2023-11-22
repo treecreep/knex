@@ -1,16 +1,21 @@
 {
-  "name": "knex",
-  "version": "3.0.0",
+  "name": "knex-browser",
+  "version": "3.0.6",
   "description": "A batteries-included SQL query & schema builder for PostgresSQL, MySQL, CockroachDB, MSSQL and SQLite3",
-  "main": "knex",
+  "main": "dist/knex4.js",
+  "type": "module",
   "types": "types/index.d.ts",
   "engines": {
     "node": ">=16"
   },
   "scripts": {
-    "build": "npm run build:gitignore && npm run build:ts && npm run format",
+    "build": "rollup -c",
+    "build2": "rollup -c rollup.config2.js",
+    "build3": "rollup -c rollup.config3.js",
+    "build4": "rollup -c rollup.config.postgres.js",
+    "build5": "rollup -c rollup.config.postgres2.js",
+    "build6": "rollup -c rollup.config4.js",
     "clean": "node scripts/clean.js",
-    "build:ts": "tsc",
     "build:gitignore": "node scripts/update_gitignore_for_tsc_output.js run",
     "format": "prettier --write --list-different .",
     "format:check": "prettier --list-different .",
@@ -58,13 +63,13 @@
     "db:stop:oracle": "docker-compose -f scripts/docker-compose.yml down",
     "stress:init": "docker-compose -f scripts/stress-test/docker-compose.yml up --no-start && docker-compose -f scripts/stress-test/docker-compose.yml start",
     "stress:test": "node scripts/stress-test/knex-stress-test.js | grep -A 5 -B 60 -- '- STATS '",
-    "stress:destroy": "docker-compose -f scripts/stress-test/docker-compose.yml stop",
-    "prepare": "husky install && npm run clean && npm run build",
-    "prepublishOnly": "npm run format:check && npm run lint:everything && npm run clean && npm run build"
+    "stress:destroy": "docker-compose -f scripts/stress-test/docker-compose.yml stop"
   },
   "dependencies": {
+    "assert-browserify": "^2.0.0",
     "colorette": "2.0.19",
     "commander": "^10.0.0",
+    "crypto-browserify": "^3.12.0",
     "debug": "4.3.4",
     "escalade": "^3.1.1",
     "esm": "^3.2.25",
@@ -75,8 +80,12 @@
     "pg-connection-string": "2.6.1",
     "rechoir": "^0.8.0",
     "resolve-from": "^5.0.0",
+    "stream-browserify": "^3.0.0",
     "tarn": "^3.0.2",
-    "tildify": "2.0.0"
+    "tildify": "2.0.0",
+    "timers-browserify": "^2.0.12",
+    "tty-browserify": "^0.0.1",
+    "util.promisify": "^1.1.2"
   },
   "peerDependenciesMeta": {
     "tedious": {
@@ -106,6 +115,12 @@
     "*.js": "eslint --cache --fix"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@tsconfig/recommended": "^1.0.1",
     "@types/node": "^20.4.0",
     "better-sqlite3": "^7.6.2",
@@ -135,6 +150,8 @@
     "pg-query-stream": "^4.2.4",
     "prettier": "2.8.7",
     "rimraf": "^3.0.2",
+    "rollup": "^4.5.1",
+    "rollup-plugin-alias": "^2.2.0",
     "sinon": "^15.0.1",
     "sinon-chai": "^3.7.0",
     "source-map-support": "^0.5.21",
