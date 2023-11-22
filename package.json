@@ -110,10 +110,6 @@
       "optional": true
     }
   },
-  "lint-staged": {
-    "*": "prettier --ignore-unknown --write",
-    "*.js": "eslint --cache --fix"
-  },
   "devDependencies": {
     "@babel/core": "^7.23.3",
     "@babel/preset-env": "^7.23.3",
@@ -136,7 +132,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-mocha-no-only": "^1.1.1",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.1",
     "jake": "^10.8.5",
     "JSONStream": "^1.3.5",
     "lint-staged": "^13.0.0",
